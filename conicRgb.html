@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.body{
+				font-family: "monotype corsiva";
+			}
+			.selectColor {
+				background: radial-gradient(gray,transparent),
+            	conic-gradient(red, yellow, green, cyan, blue, magenta, red);
+				border-radius: 50%;
+				width: 256px; height: 256px;
+			}
+		</style>
+	</head>
+
+	<body onselectstart="return false">
+		<div class="selectColor"></div>
+		<div class="result">
+			<label for="r">r:</label><input type="number" name="r" id="r"/><br />
+			<label for="g">g:</label><input type="number" name="g" id="g"/><br />
+			<label for="b">b:</label><input type="number" name="b" id="b" value="" /><br />
+			<label for="alpha">alpha:</label><input type="range" name="alpha" id="alpha" value="" min="0" max="100"/>
+			<div class="resultColor" style="height: 20px;"></div>
+		</div>
+		<div id="dot" style="position: absolute;top:500px;left:50px;width: 1px;height: 1px;border: 1px solid  black;"></div>
+		<script src="../angular.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="prefixfree.min.js"></script>
+		<script src="conic-gradient.js"></script>
+		<script src="rgbColorSelector.js" type="text/javascript" charset="utf-8"></script>
+		<script src="stringbuffer.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			selectSelector= document.getElementsByClassName("selectColor")[0];
+			selectSelector.onclick=function(event){
+				x = event.clientX - selectSelector.offsetLeft;
+				y = event.clientY - selectSelector.offsetTop;
+				dot= document.getElementById("dot")
+				dot.style.top=event.clientY+"px";
+				dot.style.left=event.clientX+"px";
+				color=rgbColorSelector(x,y,1);
+//				console.log(color['rgb']);
+				document.getElementsByClassName("resultColor")[0].style.backgroundColor = color['rgb'];
+			}
+		</script>
+		<script type="text/javascript">
+			
+		</script>
+	</body>
+
+</html>
