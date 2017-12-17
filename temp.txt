@@ -1,0 +1,82 @@
+const allRadius=127.5;//最大圆半径
+				x = event.clientX - selectSelector.offsetLeft;
+				y = event.clientY - selectSelector.offsetTop;
+//				console.log("x:"+x+" y:"+y);
+				allArcLength=((Math.PI*allRadius)/3);  /*每一小段弧长*/
+				radius=Math.sqrt(Math.pow((x-allRadius),2)+Math.pow(y-allRadius,2));
+//				console.log("所在圆半径："+radius);
+				dot= document.getElementById("dot")
+				dot.style.top=event.clientY+"px";
+				dot.style.left=event.clientX+"px";
+				
+				//三条线 
+				//二
+				Line2=((allRadius-x)*Math.sqrt(3)/3)+allRadius;
+				Line3=((x-allRadius)*Math.sqrt(3)/3)+allRadius;
+				
+				
+				angle=Math.atan2(Math.abs(x-allRadius),Math.abs(allRadius-y));//弧度
+				arcLength=angle*radius;//弧长
+				itemArcLength=(Math.PI*radius)/3;
+				leftArcLength=itemArcLength-arcLength;//剩余弧长
+//				console.debug("弧度："+angle+"弧长："+arcLength+"单项弧长："+itemArcLength+"剩余弧长:"+leftArcLength);
+				if (x>allRadius) {
+					//123
+					if (y<Line2) {
+						//1
+//						console.debug("弧度："+angle+"弧长："+arcLength+"单项弧长："+itemArcLength+"剩余弧长:"+leftArcLength);
+						colorR=allRadius+radius;
+						colorG=(arcLength*(allRadius+radius))/itemArcLength;
+						colorB=allRadius-radius;
+					} else if (y>Line2&&y<Line3) {
+						//2.5
+//						console.debug("弧度："+angle+" 弧长："+arcLength+" 单项弧长："+itemArcLength+" 剩余弧长:"+leftArcLength);
+						angle=((Math.PI/2)-angle);
+						angle=(Math.PI/6)-angle;
+						arcLength=angle*radius;
+						leftArcLength=itemArcLength-arcLength;
+						if (y>allRadius) {
+							colorR=(arcLength*(allRadius+radius))/itemArcLength;
+							colorG=allRadius+radius;
+							colorB=allRadius-radius;
+						} else{
+							colorR=(leftArcLength*(allRadius+radius))/itemArcLength;
+							colorG=allRadius+radius;
+							colorB=allRadius-radius;
+						}
+					} else{
+						colorR=allRadius-radius;
+						colorG=allRadius+radius;
+						colorB=(leftArcLength*(allRadius+radius))/itemArcLength;
+					}
+				} else{
+					//456
+					if (y>Line2) {
+						colorR=allRadius-radius;
+						colorG=(leftArcLength*(allRadius+radius))/itemArcLength;
+						colorB=allRadius+radius;
+					} else if(y<Line2&&y>Line3){
+//						console.debug("弧度："+angle+" 弧长："+arcLength+" 单项弧长："+itemArcLength+" 剩余弧长:"+leftArcLength);
+						angle=((Math.PI/2)-angle);
+						angle=(Math.PI/6)-angle;
+						arcLength=angle*radius;
+						leftArcLength=itemArcLength-arcLength;
+						if (y>allRadius) {
+							colorR=(arcLength*(allRadius+radius))/itemArcLength;
+							colorG=allRadius-radius;
+							colorB=allRadius+radius;
+						} else{
+							colorR=(leftArcLength*(allRadius+radius))/itemArcLength;
+							colorG=allRadius-radius;
+							colorB=allRadius+radius;
+						}
+					}else{
+						colorR=allRadius+radius;
+						colorG=allRadius-radius;
+						colorB=(arcLength*(allRadius+radius))/itemArcLength;
+					}
+				}
+				res="rgb("+parseInt(colorR)+","+parseInt(colorG)+","+parseInt(colorB)+")";
+				console.log(res);
+				document.getElementsByClassName("resultColor")[0].style.backgroundColor=res;
+//				console.log("r:"+colorR+" g:"+colorG+" b:"+colorB);
